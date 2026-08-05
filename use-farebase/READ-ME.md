@@ -34,8 +34,8 @@ https://console.firebase.google.com/
     //".write": "now < 1762549200000",  // 2025-11-8
     ".read": true,
     ".write": false,
-    "goods": {
-      ".indexOn": ["title", "price", "category"]
+    "db-anime": {
+      ".indexOn": ["title", "ganre", "rating"]
     }      
   }
 }
