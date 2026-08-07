@@ -53,7 +53,7 @@ const mainData = () => {
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="btn__all">
-              <a href="/categories.html?ganre=${ganre}" class="primary-btn">View All <span class="arrow_right"></span></a>
+              <a href="categories.html?ganre=${ganre}" class="primary-btn">View All <span class="arrow_right"></span></a>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ const mainData = () => {
       list.forEach(anime => {
         listBlock.insertAdjacentHTML('beforeend', `
           <div class="col-lg-4 col-md-6 col-sm-6">
-            <a class="product__item" href="/anime-details.html?itemId=${anime.id}">
+            <a class="product__item" href="anime-details.html?itemId=${anime.id}">
               <div class="product__item__pic set-bg" data-setbg="${anime.image}">
                 <div class="ep">${anime.rating} / 10</div>
                 <div class="view"><i class="fa fa-eye"></i> ${anime.views}</div>
@@ -74,7 +74,7 @@ const mainData = () => {
                 <ul>
                   ${anime.tags.map(tag => `<li>${tag}</li>`).join('')}
                 </ul>
-                <h5><a href="/anime-details.html?itemId=${anime.id}">${anime.title}</a></h5>
+                <h5><a href="anime-details.html?itemId=${anime.id}">${anime.title}</a></h5>
               </div>
             </a>
           </div>
@@ -101,7 +101,7 @@ const mainData = () => {
 >
   <div class="ep">${anime.rating} / 10</div>
   <div class="view"><i class="fa fa-eye"></i> ${anime.views}</div>
-  <h5><a href="/anime-details.html">${anime.title}</a></h5>
+  <h5><a href="anime-details.html">${anime.title}</a></h5>
 </div>
 `);
     });
