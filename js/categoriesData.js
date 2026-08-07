@@ -1,16 +1,5 @@
-const mainData = () => {
+const categoriesData = () => {
   const preloader = document.getElementById('preloder');
-
-  const renderGanres = (ganres) => {
-    const dropdownBlock = document.querySelector('.header__menu .dropdown');
-    dropdownBlock.innerHTML = '';
-
-    ganres.forEach(ganre => {
-      dropdownBlock.insertAdjacentHTML('beforeend', `
-        <li><a href="./categories.html?ganre=${ganre}">${ganre}</a></li>
-      `);
-    });
-  };
 
   // Загрузка данных
   {
@@ -23,18 +12,32 @@ const mainData = () => {
       })
       .then(data => {
         data.forEach(anime => anime.image = anime.image.replaceAll('https://v5.vost.pw', 'https://v12.vost.pw'));
-        
+
+        const ganreParam = new URLSearchParams(window.location.search).get('ganre');
+
         const ganres = new Set();
         data.forEach(anime => ganres.add(anime.ganre));
         const sorted5 = data.sort((a, b) => b.views - a.views).slice(0, 5);
 
         renderGanres(ganres);
-        renderAnimeList(data, ganres);
         renderTopAnime(sorted5);
+        renderAnimeList(data, ganreParam ? [ganreParam] : ganres);
 
         setTimeout(() => preloader.classList.remove('active'), 500);
       });
   }
+
+  // Рендер жанров
+  function renderGanres(ganres) {
+    const dropdownBlock = document.querySelector('.header__menu .dropdown');
+    dropdownBlock.innerHTML = '';
+
+    ganres.forEach(ganre => {
+      dropdownBlock.insertAdjacentHTML('beforeend', `
+        <li><a href="./categories.html?ganre=${ganre}">${ganre}</a></li>
+      `);
+    });
+  };
 
   // Рендер список аниме
   function renderAnimeList(animeList, ganres) {
@@ -59,7 +62,7 @@ const mainData = () => {
         </div>
       `);
 
-      const list = animeList.filter(anime => anime.ganre === ganre);
+      const list = animeList.filter(anime => anime.ganre === ganre || anime.tags.includes(ganre));
       const listBlock = document.createElement('div');
       listBlock.classList.add('row');
       list.forEach(anime => {
@@ -84,7 +87,6 @@ const mainData = () => {
       productBlock.appendChild(listBlock);
       wrapper.appendChild(productBlock);
 
-
     });
     wrapper.querySelectorAll('.set-bg').forEach((element) => element.style.backgroundImage = `url(${element.dataset.setbg})`);
   }
@@ -96,17 +98,18 @@ const mainData = () => {
 
     animeList.forEach(anime => {
       wrapper.insertAdjacentHTML('beforeend', `
-<div class="product__sidebar__view__item set-bg mix" 
-  data-setbg="${anime.image}" 
->
-  <div class="ep">${anime.rating} / 10</div>
-  <div class="view"><i class="fa fa-eye"></i> ${anime.views}</div>
-  <h5><a href="/anime-details.html">${anime.title}</a></h5>
-</div>
-`);
+        <div class="product__sidebar__view__item set-bg mix" 
+          data-setbg="${anime.image}" 
+        >
+          <div class="ep">${anime.rating} / 10</div>
+          <div class="view"><i class="fa fa-eye"></i> ${anime.views}</div>
+          <h5><a href="/anime-details.html">${anime.title}</a></h5>
+        </div>
+      `);
     });
     wrapper.querySelectorAll('.set-bg').forEach((element) => element.style.backgroundImage = `url(${element.dataset.setbg})`);
   };
+
 };
 
-mainData();
+categoriesData();
